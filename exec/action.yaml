@@ -100,7 +100,7 @@ runs:
         path: ${{ inputs.artifact_path }}
 
     - name: save cache
-      if: ${{ steps.ci_result.outputs.exit_code != '0' && steps.restore_cache.outputs.cache-hit != 'true' && inputs.cache_save_enable == 'true' &&  && inputs.cache_key != '' && inputs.cache_path != '' }}
+      if: ${{ steps.ci_result.outputs.exit_code != '0' && steps.restore_cache.outputs.cache-hit != 'true' && inputs.cache_save_enable == 'true' && inputs.cache_key != '' && inputs.cache_path != '' }}
       uses: actions/cache/save@v3
       with:
         key: "${{ inputs.cache_key }}"
