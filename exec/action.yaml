@@ -68,7 +68,7 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
 
-    - name: restore cache
+    - name: restore_cache
       if: ${{ steps.ci_result.outputs.exit_code != '0' && inputs.cache_key != '' && inputs.cache_path != '' }}
       uses: actions/cache/restore@v3
       with:
@@ -99,7 +99,7 @@ runs:
         path: ${{ inputs.artifact_path }}
 
     - name: save cache
-      if: ${{ steps.ci_result.outputs.exit_code != '0' && inputs.cache_save_enable == 'true' && inputs.cache_key != '' && inputs.cache_path != '' }}
+      if: ${{ steps.ci_result.outputs.exit_code != '0' && steps.restore_cache.cache-hit != 'true' && inputs.cache_save_enable == 'true' &&  && inputs.cache_key != '' && inputs.cache_path != '' }}
       uses: actions/cache/save@v3
       with:
         key: "${{ inputs.cache_key }}"
