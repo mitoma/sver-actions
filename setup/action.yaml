@@ -14,29 +14,25 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: install sver (linux and macos)
-      if: ${{ inputs.os == 'linux' || inputs.os == 'macos' }}
-      shell: bash
-      run: |
-        TEMPDIR=$(mktemp -d)
-        FILE_NAME="sver_${{ inputs.version }}_${{ inputs.os }}_amd64.zip"
-        FILE_URL="https://github.com/mitoma/sver/releases/download/${{ inputs.version }}/$FILE_NAME"
-        cd "$TEMPDIR"
-        curl -L "$FILE_URL" -o "$FILE_NAME"
-        unzip "$FILE_NAME"
-        mv sver /usr/local/bin
-        sver --help
+    - name: cache sver
+      id: cache
+      uses: actions/cache@v3
+      with:
+        path: ${{ runner.tool_cache }}/sver
+        key: ${{ runner.os }}-sver-${{ inputs.version }}-${{ inputs.os }}-amd64
 
-    - name: install sver (windows)
-      if: ${{ inputs.os == 'windows' }}
+    - name: install sver
+      if: steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        mkdir -p "$HOME/bin"
-        TEMPDIR=$(mktemp -d)
         FILE_NAME="sver_${{ inputs.version }}_${{ inputs.os }}_amd64.zip"
         FILE_URL="https://github.com/mitoma/sver/releases/download/${{ inputs.version }}/$FILE_NAME"
-        cd "$TEMPDIR"
-        curl -L "$FILE_URL" -o "$FILE_NAME"
-        unzip "$FILE_NAME"
-        mv sver.exe "$HOME/bin"
-        sver --help
+        mkdir -p "${{ runner.tool_cache }}/sver"
+        cd "${{ runner.tool_cache }}/sver"
+        curl -f -L "$FILE_URL" -o "$FILE_NAME"
+        unzip -o "$FILE_NAME"
+        find . -type f -not \( -name sver -or -name sver.exe \) -delete
+
+    - name: add path
+      shell: bash
+      run: echo "${{ runner.tool_cache }}/sver" >> "$GITHUB_PATH"
