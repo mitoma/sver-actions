@@ -1,0 +1,55 @@
+name: Test setup action
+on: push
+
+jobs:
+
+  latest:
+    strategy:
+      matrix:
+        job:
+          - os: linux
+            runs-on: ubuntu-latest
+          - os: macos
+            runs-on: macos-latest
+          - os: windows
+            runs-on: windows-latest
+      fail-fast: false
+    runs-on: ${{ matrix.job.runs-on }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./setup
+        with:
+          os: ${{ matrix.job.os }}
+      - name: sver calc
+        shell: bash
+        run: sver calc
+
+  version:
+    strategy:
+      matrix:
+        job:
+          - os: linux
+            runs-on: ubuntu-latest
+          - os: macos
+            runs-on: macos-latest
+          - os: windows
+            runs-on: windows-latest
+        version:
+          - v0.1.13
+          - v0.1.14
+      fail-fast: false
+    runs-on: ${{ matrix.job.runs-on }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./setup
+        with:
+          version: ${{ matrix.version }}
+          os: ${{ matrix.job.os }}
+      - name: check version
+        shell: bash
+        run: test "$(sver --version)" == "${version/#v/sver }"
+        env:
+          version: ${{ matrix.version }}
+      - name: sver calc
+        shell: bash
+        run: sver calc
