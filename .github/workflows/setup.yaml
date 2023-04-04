@@ -35,7 +35,6 @@ jobs:
           - os: windows
             runs-on: windows-latest
         version:
-          - v0.1.13
           - v0.1.14
       fail-fast: false
     runs-on: ${{ matrix.job.runs-on }}
