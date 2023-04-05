@@ -10,6 +10,10 @@ inputs:
     description: 'sver release os'
     required: false
     default: 'linux'
+  sha256sum:
+    description: 'sver sha256sum'
+    required: false
+    default: ''
 
 runs:
   using: "composite"
@@ -30,6 +34,12 @@ runs:
         mkdir -p "${{ runner.tool_cache }}/sver"
         cd "${{ runner.tool_cache }}/sver"
         curl -f -L "$FILE_URL" -o "$FILE_NAME"
+        command -v sha256sum >/dev/null || sha256sum() { shasum -a 256 "$@"; }
+        FILE_SHA256SUM=$(sha256sum "$FILE_NAME" | cut -f1 -d" ")
+        if [[ -n "${{ inputs.sha256sum }}" && "$FILE_SHA256SUM" != "${{ inputs.sha256sum }}" ]]; then
+          echo "invalid binary. expect: ${{ inputs.sha256sum }} actual: ${FILE_SHA256SUM}"
+          exit 1
+        fi
         unzip -o "$FILE_NAME"
         find . -type f -not \( -name sver -or -name sver.exe \) -delete
 
