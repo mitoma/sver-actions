@@ -13,7 +13,7 @@ Install sver and set the path just by adding the following line to steps.
 With all options set:
 
 ```yaml
-- uses: ./.github/actions/setup_sver
+- uses: mitoma/sver-actions/exec@v1
   with:
     os: linux
     version: v0.1.14
