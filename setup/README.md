@@ -28,5 +28,7 @@ With all options set:
 | version   | released sver version. [sver releases][] |
 | sha256sum | sha256sum of artifact zip file           |
 
+Please refer to the `SHASUMS256.txt` included in the [sver release][] for the sha256 hash.
+
 [sver]: https://github.com/mitoma/sver
 [sver releases]: https://github.com/mitoma/sver/releases
