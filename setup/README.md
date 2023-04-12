@@ -13,7 +13,7 @@ Install sver and set the path just by adding the following line to steps.
 With all options set:
 
 ```yaml
-- uses: mitoma/sver-actions/exec@v1
+- uses: mitoma/sver-actions/setup@v1
   with:
     os: linux
     version: v0.1.14
@@ -28,7 +28,7 @@ With all options set:
 | version   | released sver version. [sver releases][] |
 | sha256sum | sha256sum of artifact zip file           |
 
-Please refer to the `SHASUMS256.txt` included in the [sver release][] for the sha256 hash.
+Please refer to the `SHASUMS256.txt` included in the [sver releases][] for the sha256 hash.
 
 [sver]: https://github.com/mitoma/sver
 [sver releases]: https://github.com/mitoma/sver/releases
