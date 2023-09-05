@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.job.runs-on }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./setup
         with:
           os: ${{ matrix.job.os }}
@@ -40,7 +40,7 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.job.runs-on }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./setup
         with:
           version: ${{ matrix.version }}
