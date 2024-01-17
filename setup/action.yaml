@@ -20,7 +20,7 @@ runs:
   steps:
     - name: cache sver
       id: cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ runner.tool_cache }}/sver
         key: ${{ runner.os }}-sver-${{ inputs.version }}-${{ inputs.os }}-amd64
