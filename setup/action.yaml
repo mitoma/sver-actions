@@ -23,7 +23,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: ${{ runner.tool_cache }}/sver
-        key: ${{ runner.os }}-sver-${{ inputs.version }}-${{ inputs.os }}-amd64
+        key: sver-${{ runner.os }}-${{ runner.environment }}-${{ inputs.version }}-${{ inputs.os }}-amd64
 
     - name: install sver
       if: steps.cache.outputs.cache-hit != 'true'
