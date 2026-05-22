@@ -71,7 +71,7 @@ runs:
     - id: restore_cache
       name: restore cache
       if: ${{ steps.ci_result.outputs.exit_code != '0' && inputs.cache_key != '' && inputs.cache_path != '' }}
-      uses: actions/cache/restore@v5
+      uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
       with:
         key: "${{ inputs.cache_key }}"
         path: "${{ inputs.cache_path }}"
@@ -87,13 +87,13 @@ runs:
       shell: bash
       run: touch ci-result/${{ inputs.phase }}-${{ steps.calc_version.outputs.version }}.success
 
-    - uses: actions/upload-artifact@v7
+    - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
       if: ${{ steps.ci_result.outputs.exit_code != '0' }}
       with:
         name: ${{ inputs.phase }}-${{ steps.calc_version.outputs.version }}.success
         path: ci-result/${{ inputs.phase }}-${{ steps.calc_version.outputs.version }}.success
 
-    - uses: actions/upload-artifact@v7
+    - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
       if: ${{ steps.ci_result.outputs.exit_code != '0' && inputs.artifact_name != '' && inputs.artifact_path != ''  }}
       with:
         name: ${{ inputs.artifact_name }}-${{ steps.calc_version.outputs.version }}
@@ -101,7 +101,7 @@ runs:
 
     - name: save cache
       if: ${{ steps.ci_result.outputs.exit_code != '0' && steps.restore_cache.outputs.cache-hit != 'true' && inputs.cache_save_enable == 'true' && inputs.cache_key != '' && inputs.cache_path != '' }}
-      uses: actions/cache/save@v5
+      uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
       with:
         key: "${{ inputs.cache_key }}"
         path: "${{ inputs.cache_path }}"
